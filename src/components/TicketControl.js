@@ -3,6 +3,8 @@ import NewTicketForm from './NewTicketForm';
 import TicketList from './TicketList';
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
 
 class TicketControl extends React.Component {
 
@@ -63,6 +65,7 @@ class TicketControl extends React.Component {
       selectedTicket: null
     });
   }
+
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
@@ -81,7 +84,11 @@ class TicketControl extends React.Component {
       currentlyVisibleState = <NewTicketForm onNewTicketCreation={this.handleAddingNewTicketToList} />;
       buttonText = "Return to Ticket List";
     } else {
-      currentlyVisibleState = <TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket} />;
+      currentlyVisibleState = <Container>
+        <Row><TicketList ticketList={this.state.masterTicketList} onTicketSelection={this.handleChangingSelectedTicket} />
+        </Row>
+      </Container>
+
       // Because a user will actually be clicking on the ticket in the Ticket component, we will need to pass our new handleChangingSelectedTicket method as a prop.
       buttonText = "Add Ticket";
     }

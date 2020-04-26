@@ -1,8 +1,11 @@
 import React from "react";
+import Jumbotron from 'react-bootstrap/Jumbotron'
 
 function Header() {
   return (
-    <h1>Help Queue</h1>
+    <Jumbotron>
+      <h1>Help Queue</h1>
+    </Jumbotron>
   );
 }
 

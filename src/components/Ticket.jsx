@@ -1,16 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Card from 'react-bootstrap/Card'
+import Col from 'react-bootstrap/Col'
+
 
 function Ticket(props) {
   return (
     <React.Fragment>
-      <div onClick={() => props.whenTicketClicked(props.id)}>
-        { /* We add a div with an onClick function. Don't forget to close out the div below! */}
-        <h3>{props.location} - {props.names}</h3>
-        <p><em>{props.issue}</em></p>
-        <hr />
-      </div>
-    </React.Fragment>
+      <Col>
+        <Card style={{
+          width: "18rem",
+          overflow: "hidden",
+          borderRadius: "15px",
+          marginTop: "15px",
+          marginBottom: "15px",
+        }}>
+          <div onClick={() => props.whenTicketClicked(props.id)}>
+
+
+            <Card.Body>
+              <Card.Title>{props.names} - {props.location}</Card.Title>
+              <Card.Text>
+                {props.issue}
+              </Card.Text>
+            </Card.Body>
+          </div>
+        </Card>
+      </Col>
+
+    </React.Fragment >
   );
 }
 
