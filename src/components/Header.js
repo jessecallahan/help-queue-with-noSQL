@@ -1,12 +1,25 @@
 import React from "react";
 import Jumbotron from 'react-bootstrap/Jumbotron'
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <Jumbotron>
-      <h1>Help Queue</h1>
-    </Jumbotron>
+    <React.Fragment>
+      <Jumbotron>
+        <h1> Help Queue</h1>
+
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/signin">Sign In</Link>
+          </li>
+        </ul>
+      </Jumbotron>
+    </React.Fragment>
   );
 }
+
 
 export default Header;

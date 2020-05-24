@@ -1,6 +1,8 @@
 import React from "react";
 import Ticket from "./Ticket";
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux'
+import { useFirestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase'
 // import CardDeck from 'react-bootstrap/CardDeck'
 
 
@@ -8,35 +10,47 @@ import PropTypes from "prop-types";
 // remove const masterTicketList = [ ... ]. We no longer want these.
 
 function TicketList(props) {
-  return (
-    <React.Fragment>
-      <hr />
-      {/* We now need to map over the values of an object, not an array. */}
-      {Object.values(props.ticketList).map((ticket) => {
-        // Make sure to explicitly return the Ticket object this time! We will explain why below.
-        return <Ticket
-          whenTicketClicked={props.onTicketSelection}
-          names={ticket.names}
-          location={ticket.location}
-          issue={ticket.issue}
-          id={ticket.id}
-          key={ticket.id} />
-      })}
-      {/* Don't forget to add the curly brace above - otherwise there will be a syntax error. */}
-    </React.Fragment>
-  );
+  // The useFirestoreConnect() hook comes from react-redux-firebase.
+  useFirestoreConnect([
+    { collection: 'tickets' }
+  ]);
+
+  // The useSelector() hook comes from react-redux.
+  const tickets = useSelector(state => state.firestore.ordered.tickets);
+
+  // react-redux-firebase also offers a useful isLoaded() function.
+  if (isLoaded(tickets)) {
+    return (
+      <React.Fragment>
+        <hr />
+        {tickets.map((ticket) => {
+          return <Ticket
+            whenTicketClicked={props.onTicketSelection}
+            names={ticket.names}
+            location={ticket.location}
+            issue={ticket.issue}
+            formattedWaitTime={ticket.formattedWaitTime}
+            id={ticket.id}
+            key={ticket.id} />
+        })}
+      </React.Fragment>
+    );
+    // If the tickets aren't loaded yet, our fragment will return a "Loading..." message.
+  } else {
+    return (
+      <React.Fragment>
+        <h3>Loading...</h3>
+      </React.Fragment>
+    )
+  }
 }
 
-
 TicketList.propTypes = {
-  // The PropType below has been updated - it's now an object, not an array.
-  ticketList: PropTypes.object,
+  // We no longer need ticketList props.
+  // ticketList: PropTypes.object,
   onTicketSelection: PropTypes.func
 };
 
-
 export default TicketList;
-
-
 
 
